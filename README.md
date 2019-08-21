@@ -28,3 +28,9 @@ TODO: Still under development.
 ## License
 
 TODO: Write license creative commons
+
+    The List powered by Creative Commons
+
+    Copyright (c) 2014, 2015 Creative Commons Corporation
+
+* See [`LICENSE.md`](https://github.com/cc-archive/list/blob/master/LICENSE.md)
