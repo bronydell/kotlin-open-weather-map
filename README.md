@@ -23,10 +23,10 @@ TODO: Still under development.
 ## History
 
 - Start this application.
-- Update 
+- Update visualization.
 
 ## License
 
     The List powered by Creative Commons
     Copyright (c) 2014, 2015 Creative Commons Corporation
-* See [`LICENSE.md`](https://github.com/cc-archive/list/blob/master/LICENSE.md)
+* See [`LICENSE.md`](LICENSE.md)
