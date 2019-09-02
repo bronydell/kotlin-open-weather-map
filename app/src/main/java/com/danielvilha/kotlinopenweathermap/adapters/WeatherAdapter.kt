@@ -5,11 +5,6 @@ import com.danielvilha.kotlinopenweathermap.objects.WeatherItem
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.adapter_weather.view.*
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
-import java.util.logging.SimpleFormatter
 
 /**
  * Created by danielvilha on 2019-08-20
