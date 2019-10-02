@@ -46,7 +46,7 @@
                 android:layout_marginStart="16dp"
                 android:contentDescription="@string/app_name"
                 app:layout_constraintBottom_toBottomOf="@+id/ivTemp"
-                app:layout_constraintStart_toEndOf="@+id/tvTemp"
+                app:layout_constraintStart_toEndOf="@+id/tvTemperature"
                 app:layout_constraintTop_toTopOf="@+id/ivTemp"
                 app:srcCompat="@drawable/ic_temp_min" />
 
@@ -62,7 +62,7 @@
                 app:srcCompat="@drawable/ic_temp_max" />
 
         <TextView
-                android:id="@+id/tvTemp"
+                android:id="@+id/tvTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

@@ -1,6 +1,6 @@
 # Kotlin Open Weather Map
 
-This app is designed for Wipro, displaying Dublin 5-day weather forecast.
+This app is displaying Dublin 5-day weather forecast.
 
 https://openweathermap.org/forecast5 - This site was used to search the weather information.
 

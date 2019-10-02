@@ -13,7 +13,7 @@ class WeatherAdapter(private var item: WeatherItem): Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.tvDate.text = item.dt_txt
-        viewHolder.itemView.tvTemp.text = kelvinToCelsius(item.main.temp)
+        viewHolder.itemView.tvTemperature.text = kelvinToCelsius(item.main.temp)
         viewHolder.itemView.tvTempMin.text = kelvinToCelsius(item.main.temp_min)
         viewHolder.itemView.tvTempMax.text = kelvinToCelsius(item.main.temp_max)
         viewHolder.itemView.tvPressure.text = "${item.main.pressure} hPa"

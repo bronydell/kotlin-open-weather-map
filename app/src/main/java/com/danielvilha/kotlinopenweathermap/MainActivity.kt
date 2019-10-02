@@ -2,93 +2,63 @@ package com.danielvilha.kotlinopenweathermap
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import com.danielvilha.kotlinopenweathermap.adapters.WeatherAdapter
-import com.danielvilha.kotlinopenweathermap.objects.OpenWeather
-import com.danielvilha.kotlinopenweathermap.service.ApiFactory
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.refresh_layout.*
-import kotlinx.android.synthetic.main.weather_layout.*
+import kotlinx.android.synthetic.main.activity_main_app_bar.*
 
+/**
+ * Created by danielvilha on 2019-08-19
+ */
 class MainActivity : AppCompatActivity() {
-
-    //region Variables
-    private var openWeather: OpenWeather? = null
-    private var adapter = GroupAdapter<ViewHolder>()
-    //endregion
 
     //region onCreate
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
     }
     //endregion
 
-    //region onStart
-    override fun onStart() {
-        super.onStart()
-
-        getWeather()
-
-        floating.setOnClickListener {
-            getWeather()
-        }
+    //region onCreateOptionsMenu
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
     }
     //endregion
 
-    //region getWeather
-    private fun getWeather() {
-        val service = ApiFactory.api
-        isVisibleWeather(false)
+    //region onOptionsItemSelected
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.nav_about -> {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle(R.string.about_this_app)
+                    .setMessage(R.string.about_this_app_message)
+                    .create()
+                    .show()
+            }
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val request = service.getWeather()
-
-            try {
-                val response = request.await()
-                if (response.isSuccessful) {
-                    Log.v(TAG, response.body().toString())
-                    isVisibleWeather(true)
-                    openWeather = response.body()
-
-                    tvWeather.text = openWeather.toString()
-                    tvCityName.text = "${openWeather!!.city.name} - ${openWeather!!.city.country}"
-                    tvLatLon.text = "Lat: ${openWeather!!.city.coord.lat} - Lon: ${openWeather!!.city.coord.lon}"
-
-                    for (item in openWeather!!.list) {
-                        adapter.add(WeatherAdapter(item))
-                    }
-
-                } else {
-                    Log.d(TAG, response.errorBody().toString())
-                    isVisibleWeather(isVisibility = false, error = true)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+            R.id.nav_select_city -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, SelectCityFragment())
+                    .commit()
             }
         }
 
-        recycler.adapter = adapter
+        return super.onOptionsItemSelected(item)
     }
     //endregion
 
-    //region isVisibleWeather
-    private fun isVisibleWeather(isVisibility: Boolean, error: Boolean = false) {
-        if (error) {
-            weather.visibility = if (isVisibility) View.VISIBLE else View.GONE
-            loading.visibility = if (!isVisibility) View.VISIBLE else View.GONE
-            tvLoadingTryAgain.text = resources.getString(R.string.try_again)
+    //region onBackPressed
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            weather.visibility = if (isVisibility) View.VISIBLE else View.GONE
-            loading.visibility = if (!isVisibility) View.VISIBLE else View.GONE
-            tvLoadingTryAgain.text = resources.getString(R.string.loading)
+            super.onBackPressed()
         }
     }
     //endregion
