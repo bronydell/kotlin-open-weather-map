@@ -4,7 +4,7 @@ import com.danielvilha.kotlinopenweathermap.R
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.adapter_select_city.view.*
+import kotlinx.android.synthetic.main.view_select_city_adapter.view.*
 
 /**
  * Created by danielvilha on 2019-09-02
@@ -19,6 +19,6 @@ class SelectCityAdapter(): Item<ViewHolder>() {
     }
 
     override fun getLayout(): Int {
-        return R.layout.adapter_select_city
+        return R.layout.view_select_city_adapter
     }
 }

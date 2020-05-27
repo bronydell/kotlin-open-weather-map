@@ -4,7 +4,7 @@ import com.danielvilha.kotlinopenweathermap.R
 import com.danielvilha.kotlinopenweathermap.objects.WeatherItem
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.adapter_weather.view.*
+import kotlinx.android.synthetic.main.view_weather_adapter.view.*
 
 /**
  * Created by danielvilha on 2019-08-20
@@ -27,7 +27,7 @@ class WeatherAdapter(private var item: WeatherItem): Item<ViewHolder>() {
     }
 
     override fun getLayout(): Int {
-        return R.layout.adapter_weather
+        return R.layout.view_weather_adapter
     }
 
     private fun kelvinToCelsius(kelvin: Float): String {

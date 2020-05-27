@@ -98,6 +98,6 @@ class WeatherFragment : Fragment() {
     //endregion
 
     companion object {
-        private val TAG = WeatherFragment::class.java.name.toString()
+        private val TAG = WeatherFragment::class.java.name
     }
 }

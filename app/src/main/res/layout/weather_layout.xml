@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvLatLon"
-            tools:listitem="@layout/adapter_weather" />
+            tools:listitem="@layout/view_weather_adapter" />
 
     <ScrollView
             android:id="@+id/scrollView"
