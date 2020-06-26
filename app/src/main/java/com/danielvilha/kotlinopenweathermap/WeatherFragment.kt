@@ -63,8 +63,16 @@ class WeatherFragment : Fragment() {
                     openWeather = response.body()
 
                     tvWeather.text = openWeather.toString()
-                    tvCityName.text = "${openWeather!!.city.name} - ${openWeather!!.city.country}"
-                    tvLatLon.text = "Lat: ${openWeather!!.city.coord.lat} - Lon: ${openWeather!!.city.coord.lon}"
+                    tvCityName.text = String.format(
+                        "%s - %s",
+                        openWeather!!.city.name,
+                        openWeather!!.city.country
+                    )
+                    tvLatLon.text = String.format(
+                        "Lat: %s - Long: %s",
+                        openWeather!!.city.coord.lat,
+                        openWeather!!.city.coord.lon
+                    )
 
                     for (item in openWeather!!.list) {
                         adapter.add(WeatherAdapter(item))

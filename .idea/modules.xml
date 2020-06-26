@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KotlinOpenWeatherMap.iml" filepath="$PROJECT_DIR$/KotlinOpenWeatherMap.iml" group="KotlinOpenWeatherMap" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="KotlinOpenWeatherMap/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="kotlin-open-weather-map/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-open-weather-map.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-open-weather-map.iml" group="kotlin-open-weather-map" />
     </modules>
   </component>
 </project>
