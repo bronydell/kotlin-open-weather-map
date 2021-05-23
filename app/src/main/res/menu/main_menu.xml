@@ -10,11 +10,5 @@
             android:title="@string/about"
             app:showAsAction="never" />
 
-    <item
-            android:id="@+id/nav_select_city"
-            android:icon="@drawable/ic_city"
-            android:title="@string/select_city"
-            app:showAsAction="ifRoom"></item>
-
 
 </menu>

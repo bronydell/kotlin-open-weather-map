@@ -10,9 +10,4 @@
             android:name="com.danielvilha.kotlinopenweathermap.WeatherFragment"
             android:label="@string/app_name"
             tools:layout="@layout/fragment_weather" />
-    <fragment
-            android:id="@+id/nav_select_city"
-            android:name="com.danielvilha.kotlinopenweathermap.SelectCityFragment"
-            android:label="@string/select_city"
-            tools:layout="@layout/fragment_select_city" />
 </navigation>

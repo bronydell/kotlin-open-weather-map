@@ -3,13 +3,17 @@ package com.danielvilha.kotlinopenweathermap
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.danielvilha.kotlinopenweathermap.adapters.WeatherAdapter
 import com.danielvilha.kotlinopenweathermap.objects.OpenWeather
 import com.danielvilha.kotlinopenweathermap.service.ApiFactory
+import com.danielvilha.kotlinopenweathermap.service.SaveService
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_weather.*
@@ -19,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+
 /**
  * Created by danielvilha on 2019-08-29
  */
@@ -26,6 +31,7 @@ class WeatherFragment : Fragment() {
 
     //region Variables
     private var openWeather: OpenWeather? = null
+    private var saveService: SaveService = SaveService()
     private var adapter = GroupAdapter<ViewHolder>()
     //endregion
 
@@ -38,6 +44,15 @@ class WeatherFragment : Fragment() {
     //region onStart
     override fun onStart() {
         super.onStart()
+
+        editTextCityName.setText(saveService.getSavedCity(activity, "Minsk"))
+        editTextCityName.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                getWeather()
+                return@OnEditorActionListener true
+            }
+            false
+        })
 
         getWeather()
 
@@ -53,37 +68,30 @@ class WeatherFragment : Fragment() {
         isVisibleWeather(false)
 
         GlobalScope.launch(Dispatchers.Main) {
-            val request = service.getWeather()
-
+            val request = service.getWeather(editTextCityName.text.toString())
+            var responseData: OpenWeather? = null
             try {
                 val response = request.await()
-                if (response.isSuccessful) {
+                responseData = if (response.isSuccessful) {
                     Log.v(TAG, response.body().toString())
-                    isVisibleWeather(true)
-                    openWeather = response.body()
-
-                    tvWeather.text = openWeather.toString()
-                    tvCityName.text = String.format(
-                        "%s - %s",
-                        openWeather!!.city.name,
-                        openWeather!!.city.country
-                    )
-                    tvLatLon.text = String.format(
-                        "Lat: %s - Long: %s",
-                        openWeather!!.city.coord.lat,
-                        openWeather!!.city.coord.lon
-                    )
-
-                    for (item in openWeather!!.list) {
-                        adapter.add(WeatherAdapter(item))
-                    }
-
+                    response.body()
                 } else {
-                    Log.d(TAG, response.errorBody().toString())
-                    isVisibleWeather(isVisibility = false, error = true)
+                    saveService.getSavedCityData(activity)
                 }
             } catch (e: Exception) {
+                responseData = saveService.getSavedCityData(activity)
                 e.printStackTrace()
+            }
+
+            if (responseData != null) {
+                fillWeather(responseData)
+                isVisibleWeather(true)
+                saveService.saveCity(activity, responseData.city.name)
+                saveService.saveCityData(activity, responseData)
+            }
+            else {
+                Toast.makeText(context, "Can't fetch the data or city name is wrong", Toast.LENGTH_SHORT).show()
+                isVisibleWeather(isVisibility = false, error = "Cannot fetch the data and local data doesn't exist")
             }
         }
 
@@ -91,12 +99,31 @@ class WeatherFragment : Fragment() {
     }
     //endregion
 
+    private fun fillWeather(weatherData: OpenWeather) {
+        openWeather = weatherData
+        tvWeather.text = weatherData.toString()
+        editTextCityName.setText(String.format(
+            "%s, %s",
+            weatherData.city.name,
+            weatherData.city.country
+        ))
+        tvLatLon.text = String.format(
+            "Lat: %s - Long: %s",
+            weatherData.city.coord.lat,
+            weatherData.city.coord.lon
+        )
+
+        for (item in weatherData.list) {
+            adapter.add(WeatherAdapter(item))
+        }
+    }
+
     //region isVisibleWeather
-    private fun isVisibleWeather(isVisibility: Boolean, error: Boolean = false) {
-        if (error) {
+    private fun isVisibleWeather(isVisibility: Boolean, error: String? = null) {
+        if (!error.isNullOrBlank()) {
             weather.visibility = if (isVisibility) View.VISIBLE else View.GONE
             loading.visibility = if (!isVisibility) View.VISIBLE else View.GONE
-            tvLoadingTryAgain.text = resources.getString(R.string.try_again)
+            tvLoadingTryAgain.text = error
         } else {
             weather.visibility = if (isVisibility) View.VISIBLE else View.GONE
             loading.visibility = if (!isVisibility) View.VISIBLE else View.GONE

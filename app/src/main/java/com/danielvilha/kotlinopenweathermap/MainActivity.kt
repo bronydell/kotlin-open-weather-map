@@ -32,20 +32,14 @@ class MainActivity : AppCompatActivity() {
     //endregion
 
     //region onOptionsItemSelected
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.nav_about -> {
                 AlertDialog.Builder(this@MainActivity)
                     .setTitle(R.string.about_this_app)
                     .setMessage(R.string.about_this_app_message)
                     .create()
                     .show()
-            }
-
-            R.id.nav_select_city -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment, SelectCityFragment())
-                    .commit()
             }
         }
 
