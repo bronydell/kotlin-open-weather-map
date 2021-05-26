@@ -112,7 +112,7 @@ class WeatherFragment : Fragment() {
             weatherData.city.coord.lat,
             weatherData.city.coord.lon
         )
-
+        adapter.clear();
         for (item in weatherData.list) {
             adapter.add(WeatherAdapter(item))
         }
